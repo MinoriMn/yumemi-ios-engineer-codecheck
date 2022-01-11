@@ -20,7 +20,6 @@ class RootViewController: UITableViewController, UISearchBarDelegate {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        // Do any additional setup after loading the view.
 
         searchBar.text = "GitHubのリポジトリを検索できるよー"
         searchBar.delegate = self
@@ -52,11 +51,9 @@ class RootViewController: UITableViewController, UISearchBarDelegate {
                     }
                 }
             }
-
             // 検索の実行
             searchRepositoriesTask?.resume()
         }
-        
     }
     
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
@@ -77,14 +74,11 @@ class RootViewController: UITableViewController, UISearchBarDelegate {
         cell.detailTextLabel?.text = repository["language"] as? String ?? ""
         cell.tag = indexPath.row
         return cell
-        
     }
     
     override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         // 詳細画面に遷移
         selectedRepogitoryIndex = indexPath.row
         performSegue(withIdentifier: "Detail", sender: self)
-        
     }
-    
 }
