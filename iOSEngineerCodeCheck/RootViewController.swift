@@ -37,30 +37,29 @@ class RootViewController: UITableViewController, UISearchBarDelegate {
     
     func searchBarSearchButtonClicked(_ searchBar: UISearchBar) {
         searchWord = searchBar.text!
-        
-        if searchWord.count != 0 {
-            searchRepositoriesUrl = "https://api.github.com/search/repositories?q=\(searchWord!)"
-            searchRepositoriesTask = URLSession.shared.dataTask(with: URL(string: searchRepositoriesUrl)!) { (data, res, err) in
-                if let obj = try! JSONSerialization.jsonObject(with: data!) as? [String: Any] {
-                    if let items = obj["items"] as? [[String: Any]] {
-                        self.repositories = items
-                        DispatchQueue.main.async {
-                            // 検索結果更新
-                            self.tableView.reloadData()
-                        }
-                    }
-                }
+
+        guard searchWord.count != 0 else { return }
+
+        searchRepositoriesUrl = "https://api.github.com/search/repositories?q=\(searchWord!)"
+        searchRepositoriesTask = URLSession.shared.dataTask(with: URL(string: searchRepositoriesUrl)!) { (data, res, err) in
+            guard let obj = try! JSONSerialization.jsonObject(with: data!) as? [String: Any],
+                  let items = obj["items"] as? [[String: Any]] else { return }
+
+            self.repositories = items
+            DispatchQueue.main.async {
+                // 検索結果更新
+                self.tableView.reloadData()
             }
-            // 検索の実行
-            searchRepositoriesTask?.resume()
         }
+        // 検索の実行
+        searchRepositoriesTask?.resume()
     }
     
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        if segue.identifier == "Detail"{
-            let dtl = segue.destination as! DetailViewController
-            dtl.rootViewController = self
-        }
+        guard segue.identifier == "Detail" else { return }
+
+        let dtl = segue.destination as! DetailViewController
+        dtl.rootViewController = self
     }
     
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
