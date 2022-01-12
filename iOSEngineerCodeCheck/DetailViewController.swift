@@ -27,8 +27,7 @@ class DetailViewController: UIViewController {
     }
 
     private func setLabelsText() {
-        guard let selectedRepogitoryIndex = rootViewController.selectedRepogitoryIndex else { return }
-        let repository = rootViewController.repositories[selectedRepogitoryIndex]
+        guard let repository = rootViewController.repositories[safe: rootViewController.selectedRepogitoryIndex] else { return }
 
         languageLabel.text = "Written in \(repository["language"] as? String ?? "")"
         stargazersLabel.text = "\(repository["stargazers_count"] as? Int ?? 0) stars"
@@ -38,8 +37,7 @@ class DetailViewController: UIViewController {
     }
     
     private func getImage(){
-        guard let selectedRepogitoryIndex = rootViewController.selectedRepogitoryIndex else { return }
-        let repository = rootViewController.repositories[selectedRepogitoryIndex]
+        guard let repository = rootViewController.repositories[safe: rootViewController.selectedRepogitoryIndex] else { return }
         
         titleLabel.text = repository["full_name"] as? String
 

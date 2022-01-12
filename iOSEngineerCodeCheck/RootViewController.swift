@@ -72,9 +72,12 @@ class RootViewController: UITableViewController, UISearchBarDelegate {
     
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = UITableViewCell()
-        let repository = repositories[indexPath.row]
-        cell.textLabel?.text = repository["full_name"] as? String ?? ""
-        cell.detailTextLabel?.text = repository["language"] as? String ?? ""
+
+        if let repository = repositories[safe: indexPath.row] {
+            cell.textLabel?.text = repository["full_name"] as? String ?? ""
+            cell.detailTextLabel?.text = repository["language"] as? String ?? ""
+        }
+
         cell.tag = indexPath.row
         return cell
     }
