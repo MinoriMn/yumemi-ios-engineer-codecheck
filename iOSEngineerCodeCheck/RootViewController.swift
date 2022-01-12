@@ -44,15 +44,15 @@ class RootViewController: UITableViewController, UISearchBarDelegate {
 
         guard let url = URL(string: searchRepositoriesUrl) else { return }
 
-        searchRepositoriesTask = URLSession.shared.dataTask(with: url) { (data, res, err) in
+        searchRepositoriesTask = URLSession.shared.dataTask(with: url) { [weak self] (data, res, err) in
             guard let data = data,
                   let obj = try? JSONSerialization.jsonObject(with: data) as? [String: Any],
                   let items = obj["items"] as? [[String: Any]] else { return }
 
-            self.repositories = items
-            DispatchQueue.main.async {
+            self?.repositories = items
+            DispatchQueue.main.async { [weak self] in
                 // 検索結果更新
-                self.tableView.reloadData()
+                self?.tableView.reloadData()
             }
         }
         // 検索の実行
