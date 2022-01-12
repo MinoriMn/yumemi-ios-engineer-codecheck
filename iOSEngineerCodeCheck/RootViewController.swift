@@ -13,10 +13,10 @@ class RootViewController: UITableViewController, UISearchBarDelegate {
     
     var repositories: [[String: Any]]=[]
 
-    var searchWord: String!
-    var searchRepositoriesUrl: String!
+    var searchWord: String = ""
+    var searchRepositoriesUrl: String = ""
     var searchRepositoriesTask: URLSessionTask?
-    var selectedRepogitoryIndex: Int!
+    var selectedRepogitoryIndex: Int?
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -36,13 +36,17 @@ class RootViewController: UITableViewController, UISearchBarDelegate {
     }
     
     func searchBarSearchButtonClicked(_ searchBar: UISearchBar) {
-        searchWord = searchBar.text!
+        guard let searchBarText = searchBar.text,
+              searchBarText.count != 0 else { return }
 
-        guard searchWord.count != 0 else { return }
+        searchWord = searchBarText
+        searchRepositoriesUrl = "https://api.github.com/search/repositories?q=\(searchWord)"
 
-        searchRepositoriesUrl = "https://api.github.com/search/repositories?q=\(searchWord!)"
-        searchRepositoriesTask = URLSession.shared.dataTask(with: URL(string: searchRepositoriesUrl)!) { (data, res, err) in
-            guard let obj = try! JSONSerialization.jsonObject(with: data!) as? [String: Any],
+        guard let url = URL(string: searchRepositoriesUrl) else { return }
+
+        searchRepositoriesTask = URLSession.shared.dataTask(with: url) { (data, res, err) in
+            guard let data = data,
+                  let obj = try? JSONSerialization.jsonObject(with: data) as? [String: Any],
                   let items = obj["items"] as? [[String: Any]] else { return }
 
             self.repositories = items
@@ -56,9 +60,9 @@ class RootViewController: UITableViewController, UISearchBarDelegate {
     }
     
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        guard segue.identifier == "Detail" else { return }
+        guard segue.identifier == "Detail",
+              let dtl = segue.destination as? DetailViewController else { return }
 
-        let dtl = segue.destination as! DetailViewController
         dtl.rootViewController = self
     }
     

@@ -21,27 +21,36 @@ class DetailViewController: UIViewController {
         
     override func viewDidLoad() {
         super.viewDidLoad()
-        
-        let repository = rootViewController.repositories[rootViewController.selectedRepogitoryIndex]
-        
+
+        setLabelsText()
+        getImage()
+    }
+
+    private func setLabelsText() {
+        guard let selectedRepogitoryIndex = rootViewController.selectedRepogitoryIndex else { return }
+        let repository = rootViewController.repositories[selectedRepogitoryIndex]
+
         languageLabel.text = "Written in \(repository["language"] as? String ?? "")"
         stargazersLabel.text = "\(repository["stargazers_count"] as? Int ?? 0) stars"
         wachersLabel.text = "\(repository["wachers_count"] as? Int ?? 0) watchers"
         forksLabel.text = "\(repository["forks_count"] as? Int ?? 0) forks"
         issuesLabel.text = "\(repository["open_issues_count"] as? Int ?? 0) open issues"
-        getImage()
     }
     
     func getImage(){
-        let repository = rootViewController.repositories[rootViewController.selectedRepogitoryIndex]
+        guard let selectedRepogitoryIndex = rootViewController.selectedRepogitoryIndex else { return }
+        let repository = rootViewController.repositories[selectedRepogitoryIndex]
         
         titleLabel.text = repository["full_name"] as? String
 
         guard let owner = repository["owner"] as? [String: Any],
-              let imgURL = owner["avatar_url"] as? String else { return }
+              let imgURL = owner["avatar_url"] as? String,
+              let url = URL(string: imgURL) else { return }
 
-        URLSession.shared.dataTask(with: URL(string: imgURL)!) { (data, res, err) in
-            let img = UIImage(data: data!)!
+        URLSession.shared.dataTask(with: url) { (data, res, err) in
+            guard let data = data,
+                  let img = UIImage(data: data) else { return }
+
             DispatchQueue.main.async {
                 self.imageView.image = img
             }
