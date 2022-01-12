@@ -9,14 +9,14 @@
 import UIKit
 
 class RootViewController: UITableViewController, UISearchBarDelegate {
-    @IBOutlet weak var searchBar: UISearchBar!
+    @IBOutlet private weak var searchBar: UISearchBar!
     
-    var repositories: [[String: Any]]=[]
+    private(set) var repositories: [[String: Any]]=[]
 
-    var searchWord: String!
-    var searchRepositoriesUrl: String!
-    var searchRepositoriesTask: URLSessionTask?
-    var selectedRepogitoryIndex: Int!
+    private var searchWord: String = ""
+    private var searchRepositoriesUrl: String = ""
+    private var searchRepositoriesTask: URLSessionTask?
+    private(set) var selectedRepogitoryIndex: Int?
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -36,13 +36,17 @@ class RootViewController: UITableViewController, UISearchBarDelegate {
     }
     
     func searchBarSearchButtonClicked(_ searchBar: UISearchBar) {
-        searchWord = searchBar.text!
+        guard let searchBarText = searchBar.text,
+              searchBarText.count != 0 else { return }
 
-        guard searchWord.count != 0 else { return }
+        searchWord = searchBarText
+        searchRepositoriesUrl = "https://api.github.com/search/repositories?q=\(searchWord)"
 
-        searchRepositoriesUrl = "https://api.github.com/search/repositories?q=\(searchWord!)"
-        searchRepositoriesTask = URLSession.shared.dataTask(with: URL(string: searchRepositoriesUrl)!) { (data, res, err) in
-            guard let obj = try! JSONSerialization.jsonObject(with: data!) as? [String: Any],
+        guard let url = URL(string: searchRepositoriesUrl) else { return }
+
+        searchRepositoriesTask = URLSession.shared.dataTask(with: url) { (data, res, err) in
+            guard let data = data,
+                  let obj = try? JSONSerialization.jsonObject(with: data) as? [String: Any],
                   let items = obj["items"] as? [[String: Any]] else { return }
 
             self.repositories = items
@@ -56,9 +60,9 @@ class RootViewController: UITableViewController, UISearchBarDelegate {
     }
     
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        guard segue.identifier == "Detail" else { return }
+        guard segue.identifier == "Detail",
+              let dtl = segue.destination as? DetailViewController else { return }
 
-        let dtl = segue.destination as! DetailViewController
         dtl.rootViewController = self
     }
     
@@ -68,9 +72,12 @@ class RootViewController: UITableViewController, UISearchBarDelegate {
     
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = UITableViewCell()
-        let repository = repositories[indexPath.row]
-        cell.textLabel?.text = repository["full_name"] as? String ?? ""
-        cell.detailTextLabel?.text = repository["language"] as? String ?? ""
+
+        if let repository = repositories[safe: indexPath.row] {
+            cell.textLabel?.text = repository["full_name"] as? String ?? ""
+            cell.detailTextLabel?.text = repository["language"] as? String ?? ""
+        }
+
         cell.tag = indexPath.row
         return cell
     }
