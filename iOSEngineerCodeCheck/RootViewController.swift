@@ -9,14 +9,14 @@
 import UIKit
 
 class RootViewController: UITableViewController, UISearchBarDelegate {
-    @IBOutlet weak var searchBar: UISearchBar!
+    @IBOutlet private weak var searchBar: UISearchBar!
     
-    var repositories: [[String: Any]]=[]
+    private(set) var repositories: [[String: Any]]=[]
 
-    var searchWord: String = ""
-    var searchRepositoriesUrl: String = ""
-    var searchRepositoriesTask: URLSessionTask?
-    var selectedRepogitoryIndex: Int?
+    private var searchWord: String = ""
+    private var searchRepositoriesUrl: String = ""
+    private var searchRepositoriesTask: URLSessionTask?
+    private(set) var selectedRepogitoryIndex: Int?
     
     override func viewDidLoad() {
         super.viewDidLoad()
