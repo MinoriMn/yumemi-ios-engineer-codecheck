@@ -36,7 +36,7 @@ class DetailViewController: UIViewController {
         issuesLabel.text = "\(repository["open_issues_count"] as? Int ?? 0) open issues"
     }
     
-    private func getImage(){
+    private func getImage() {
         guard let repository = rootViewController.repositories[safe: rootViewController.selectedRepogitoryIndex] else { return }
         
         titleLabel.text = repository["full_name"] as? String
