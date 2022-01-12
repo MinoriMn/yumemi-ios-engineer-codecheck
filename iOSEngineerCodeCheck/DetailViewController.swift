@@ -22,22 +22,22 @@ class DetailViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        let repo = rootViewController.repositories[rootViewController.selectedRepogitoryIndex]
+        let repository = rootViewController.repositories[rootViewController.selectedRepogitoryIndex]
         
-        languageLabel.text = "Written in \(repo["language"] as? String ?? "")"
-        stargazersLabel.text = "\(repo["stargazers_count"] as? Int ?? 0) stars"
-        wachersLabel.text = "\(repo["wachers_count"] as? Int ?? 0) watchers"
-        forksLabel.text = "\(repo["forks_count"] as? Int ?? 0) forks"
-        issuesLabel.text = "\(repo["open_issues_count"] as? Int ?? 0) open issues"
+        languageLabel.text = "Written in \(repository["language"] as? String ?? "")"
+        stargazersLabel.text = "\(repository["stargazers_count"] as? Int ?? 0) stars"
+        wachersLabel.text = "\(repository["wachers_count"] as? Int ?? 0) watchers"
+        forksLabel.text = "\(repository["forks_count"] as? Int ?? 0) forks"
+        issuesLabel.text = "\(repository["open_issues_count"] as? Int ?? 0) open issues"
         getImage()
     }
     
     func getImage(){
-        let repo = rootViewController.repositories[rootViewController.selectedRepogitoryIndex]
+        let repository = rootViewController.repositories[rootViewController.selectedRepogitoryIndex]
         
-        titleLabel.text = repo["full_name"] as? String
+        titleLabel.text = repository["full_name"] as? String
 
-        guard let owner = repo["owner"] as? [String: Any],
+        guard let owner = repository["owner"] as? [String: Any],
               let imgURL = owner["avatar_url"] as? String else { return }
 
         URLSession.shared.dataTask(with: URL(string: imgURL)!) { (data, res, err) in
