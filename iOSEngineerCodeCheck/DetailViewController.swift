@@ -32,7 +32,7 @@ class DetailViewController: UIViewController {
         getImage()
     }
     
-    func getImage(){
+    func getImage() {
         let repository = rootViewController.repositories[rootViewController.selectedRepogitoryIndex]
         
         titleLabel.text = repository["full_name"] as? String
