@@ -17,7 +17,7 @@ class DetailViewController: UIViewController {
     @IBOutlet private weak var forksLabel: UILabel!
     @IBOutlet private weak var issuesLabel: UILabel!
     
-    var rootViewController: RootViewController!
+    var rootViewController: RootViewController?
         
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -27,7 +27,7 @@ class DetailViewController: UIViewController {
     }
 
     private func setLabelsText() {
-        guard let repository = rootViewController.repositories[safe: rootViewController.selectedRepogitoryIndex] else { return }
+        guard let repository = rootViewController?.repositories[safe: rootViewController?.selectedRepogitoryIndex] else { return }
 
         languageLabel.text = "Written in \(repository["language"] as? String ?? "")"
         stargazersLabel.text = "\(repository["stargazers_count"] as? Int ?? 0) stars"
@@ -37,7 +37,7 @@ class DetailViewController: UIViewController {
     }
     
     private func getImage() {
-        guard let repository = rootViewController.repositories[safe: rootViewController.selectedRepogitoryIndex] else { return }
+        guard let repository = rootViewController?.repositories[safe: rootViewController?.selectedRepogitoryIndex] else { return }
         
         titleLabel.text = repository["full_name"] as? String
 
