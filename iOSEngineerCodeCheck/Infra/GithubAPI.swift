@@ -55,6 +55,7 @@ final class GithubAPI {
 
                 promise(.success(repositories))
             }
+            .resume()
         }
         .eraseToAnyPublisher()
     }

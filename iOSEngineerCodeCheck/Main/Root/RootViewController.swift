@@ -12,32 +12,35 @@ import UIKit
 class RootViewController: UITableViewController, UISearchBarDelegate {
     @IBOutlet private weak var searchBar: UISearchBar!
     
-    private var repositories: [Repository]=[]
+    private var repositories: [Repository] = []
 
-    private let viewModel: RootViewModel
-    private let input: Input
+    private var viewModel: RootViewModel?
+    private var input: Input?
     private var cancellables = [AnyCancellable]()
 
     private let searchBarSearchButtonClickedPublisher = PassthroughSubject<String, Error>()
 
-    init?(coder: NSCoder, input: Input = .init(usecase: .init())) {
-        self.input = input
-        self.viewModel = .init(usecase: input.usecase)
-        super.init(coder: coder)
-    }
-
-    required init?(coder: NSCoder) {
-        fatalError("init(coder:) has not been implemented")
-    }
+    private var selectedRepository: Repository?
     
     override func viewDidLoad() {
         super.viewDidLoad()
 
         searchBar.text = "GitHubのリポジトリを検索できるよー"
         searchBar.delegate = self
+
+        bindInput(input: .init(usecase: .init()))
+    }
+
+    private func bindInput(input: Input) {
+        self.input = input
+        self.viewModel = .init(usecase: input.usecase)
+
+        bind()
     }
 
     private func bind() {
+        guard let viewModel = viewModel else { return }
+
         cancellables.forEach { $0.cancel() }
         cancellables.removeAll()
 
@@ -76,12 +79,17 @@ class RootViewController: UITableViewController, UISearchBarDelegate {
         // 検索の実行
         searchBarSearchButtonClickedPublisher.send(searchBarText)
     }
-    
+
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         guard segue.identifier == "Detail",
-              let dtl = segue.destination as? DetailViewController else { return }
+              let detailViewController = segue.destination as? DetailViewController,
+              let selectedRepository = selectedRepository,
+              let input = input else { return }
 
-        dtl.rootViewController = self
+        detailViewController.bindInput(input: .init(
+            selectedRepository: selectedRepository,
+            usecase: input.usecase)
+        )
     }
     
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
@@ -102,6 +110,7 @@ class RootViewController: UITableViewController, UISearchBarDelegate {
     
     override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         // 詳細画面に遷移
+        selectedRepository = repositories[safe: indexPath.row]
         performSegue(withIdentifier: "Detail", sender: self)
     }
 }

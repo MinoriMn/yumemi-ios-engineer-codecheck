@@ -6,6 +6,7 @@
 //  Copyright © 2020 YUMEMI Inc. All rights reserved.
 //
 
+import Combine
 import UIKit
 
 class DetailViewController: UIViewController {
@@ -16,42 +17,80 @@ class DetailViewController: UIViewController {
     @IBOutlet private weak var wachersLabel: UILabel!
     @IBOutlet private weak var forksLabel: UILabel!
     @IBOutlet private weak var issuesLabel: UILabel!
-    
-    var rootViewController: RootViewController?
-        
+
+    private var viewModel: DetailViewModel?
+    private var input: Input?
+    private var cancellables = [AnyCancellable]()
+
     override func viewDidLoad() {
         super.viewDidLoad()
-
-        setLabelsText()
-        getImage()
     }
 
-    private func setLabelsText() {
-        guard let repository = rootViewController?.repositories[safe: rootViewController?.selectedRepogitoryIndex] else { return }
+    public func bindInput(input: Input) {
+        self.input = input
+        self.viewModel = .init(
+            repository: input.selectedRepository,
+            usecase: input.usecase
+        )
 
-        languageLabel.text = "Written in \(repository["language"] as? String ?? "")"
-        stargazersLabel.text = "\(repository["stargazers_count"] as? Int ?? 0) stars"
-        wachersLabel.text = "\(repository["wachers_count"] as? Int ?? 0) watchers"
-        forksLabel.text = "\(repository["forks_count"] as? Int ?? 0) forks"
-        issuesLabel.text = "\(repository["open_issues_count"] as? Int ?? 0) open issues"
+        bind()
+    }
+
+    private func bind() {
+        guard let viewModel = viewModel else { return }
+
+        cancellables.forEach { $0.cancel() }
+        cancellables.removeAll()
+
+        let output = viewModel.transform(input: .init())
+
+        output.repository
+            .receive(on: DispatchQueue.main)
+            .sink(receiveCompletion: { completion in
+                switch completion {
+                case .finished: break
+                case .failure(let error):
+                    // TODO: エラー表示
+                    print(error)
+                }
+            }, receiveValue: { [weak self] repository in
+                self?.setLabelsText(repository: repository)
+            })
+            .store(in: &cancellables)
+
+        output.avaterImage
+            .receive(on: DispatchQueue.main)
+            .sink(receiveCompletion: { completion in
+                switch completion {
+                case .finished: break
+                case .failure(let error):
+                    // TODO: エラー表示
+                    print(error)
+                }
+            }, receiveValue: { [weak self] image in
+                guard let image = image ?? UIImage(named:"noImage") else { return }
+                self?.setImage(image: image)
+            })
+            .store(in: &cancellables)
+    }
+
+    private func setLabelsText(repository: Repository) {
+        titleLabel.text = repository.fullName
+        languageLabel.text = "Written in \(repository.language ?? "")"
+        stargazersLabel.text = "\(repository.stargazersCount ?? 0) stars"
+        wachersLabel.text = "\(repository.wachersCount ?? 0) watchers"
+        forksLabel.text = "\(repository.forksCount ?? 0) forks"
+        issuesLabel.text = "\(repository.openIssuesCount ?? 0) open issues"
     }
     
-    private func getImage() {
-        guard let repository = rootViewController?.repositories[safe: rootViewController?.selectedRepogitoryIndex] else { return }
-        
-        titleLabel.text = repository["full_name"] as? String
+    private func setImage(image: UIImage) {
+        imageView.image = image
+    }
+}
 
-        guard let owner = repository["owner"] as? [String: Any],
-              let imgURL = owner["avatar_url"] as? String,
-              let url = URL(string: imgURL) else { return }
-
-        URLSession.shared.dataTask(with: url) { [weak self] (data, res, err) in
-            guard let data = data,
-                  let img = UIImage(data: data) else { return }
-
-            DispatchQueue.main.async { [weak self] in
-                self?.imageView.image = img
-            }
-        }.resume()
+extension DetailViewController {
+    public struct Input {
+        let selectedRepository: Repository
+        let usecase: SearchRepositoriesUsecase
     }
 }

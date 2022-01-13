@@ -7,6 +7,7 @@
 //
 
 import Combine
+import UIKit
 
 final class SearchRepositoriesUsecase {
     private let githubRepository = GithubRepository()
@@ -34,6 +35,31 @@ final class SearchRepositoriesUsecase {
                 return Just(repository).setFailureType(to: Error.self).eraseToAnyPublisher()
             }
             .eraseToAnyPublisher()
+    }
+
+    public func getAvaterImage(repository: Repository) -> AnyPublisher<UIImage?, Error> {
+        Future<UIImage?, Error>() { promise in
+            guard let url = repository.owner.avatarUrl else {
+                promise(.success(nil))
+                return
+            }
+
+            URLSession.shared.dataTask(with: url) { (data, res, error) in
+                if let error = error {
+                    promise(.failure(error))
+                    return
+                }
+
+                guard let data = data else {
+                    promise(.success(nil))
+                    return
+                }
+
+                promise(.success(UIImage(data: data)))
+            }
+            .resume()
+        }
+        .eraseToAnyPublisher()
     }
 }
 
