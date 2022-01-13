@@ -44,15 +44,15 @@ class RootViewController: UITableViewController, UISearchBarDelegate {
 
         guard let url = URL(string: searchRepositoriesUrl) else { return }
 
-        searchRepositoriesTask = URLSession.shared.dataTask(with: url) { (data, res, err) in
+        searchRepositoriesTask = URLSession.shared.dataTask(with: url) { [weak self] (data, res, err) in
             guard let data = data,
                   let obj = try? JSONSerialization.jsonObject(with: data) as? [String: Any],
                   let items = obj["items"] as? [[String: Any]] else { return }
 
-            self.repositories = items
-            DispatchQueue.main.async {
+            self?.repositories = items
+            DispatchQueue.main.async { [weak self] in
                 // 検索結果更新
-                self.tableView.reloadData()
+                self?.tableView.reloadData()
             }
         }
         // 検索の実行
@@ -71,7 +71,7 @@ class RootViewController: UITableViewController, UISearchBarDelegate {
     }
     
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cell = UITableViewCell()
+        let cell = UITableViewCell(style: .value1, reuseIdentifier: nil)
 
         if let repository = repositories[safe: indexPath.row] {
             cell.textLabel?.text = repository["full_name"] as? String ?? ""
