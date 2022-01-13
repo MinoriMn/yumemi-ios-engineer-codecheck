@@ -7,15 +7,23 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		BF0A658D244F2A3B00280FA6 /* ViewController2.swift in Sources */ = {isa = PBXBuildFile; fileRef = BF0A658C244F2A3B00280FA6 /* ViewController2.swift */; };
+		BF0A658D244F2A3B00280FA6 /* DetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = BF0A658C244F2A3B00280FA6 /* DetailViewController.swift */; };
 		BFD945DF244DC5E80012785A /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = BFD945DE244DC5E80012785A /* AppDelegate.swift */; };
 		BFD945E1244DC5E80012785A /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = BFD945E0244DC5E80012785A /* SceneDelegate.swift */; };
-		BFD945E3244DC5E80012785A /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = BFD945E2244DC5E80012785A /* ViewController.swift */; };
+		BFD945E3244DC5E80012785A /* RootViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = BFD945E2244DC5E80012785A /* RootViewController.swift */; };
 		BFD945E6244DC5E80012785A /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = BFD945E4244DC5E80012785A /* Main.storyboard */; };
 		BFD945E8244DC5EB0012785A /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = BFD945E7244DC5EB0012785A /* Assets.xcassets */; };
 		BFD945EB244DC5EB0012785A /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = BFD945E9244DC5EB0012785A /* LaunchScreen.storyboard */; };
 		BFD945F6244DC5EB0012785A /* iOSEngineerCodeCheckTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = BFD945F5244DC5EB0012785A /* iOSEngineerCodeCheckTests.swift */; };
 		BFD94601244DC5EC0012785A /* iOSEngineerCodeCheckUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = BFD94600244DC5EC0012785A /* iOSEngineerCodeCheckUITests.swift */; };
+		C9057D09278E5B3100549F08 /* Array.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9057D08278E5B3100549F08 /* Array.swift */; };
+		C96749E3278FA2130084F378 /* GithubAPI.swift in Sources */ = {isa = PBXBuildFile; fileRef = C96749E2278FA2130084F378 /* GithubAPI.swift */; };
+		C96749E8278FA3B00084F378 /* Repository.swift in Sources */ = {isa = PBXBuildFile; fileRef = C96749E7278FA3B00084F378 /* Repository.swift */; };
+		C96749EA278FAAD00084F378 /* GithubRepository.swift in Sources */ = {isa = PBXBuildFile; fileRef = C96749E9278FAAD00084F378 /* GithubRepository.swift */; };
+		C96749EC278FACA70084F378 /* SearchRepositoriesUsecase.swift in Sources */ = {isa = PBXBuildFile; fileRef = C96749EB278FACA70084F378 /* SearchRepositoriesUsecase.swift */; };
+		C96749EE278FB44D0084F378 /* DetailViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = C96749ED278FB44D0084F378 /* DetailViewModel.swift */; };
+		C96749F0278FB45D0084F378 /* RootViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = C96749EF278FB45D0084F378 /* RootViewModel.swift */; };
+		C96749F3278FBCB60084F378 /* CommonError.swift in Sources */ = {isa = PBXBuildFile; fileRef = C96749F2278FBCB60084F378 /* CommonError.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -36,11 +44,11 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
-		BF0A658C244F2A3B00280FA6 /* ViewController2.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController2.swift; sourceTree = "<group>"; };
+		BF0A658C244F2A3B00280FA6 /* DetailViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DetailViewController.swift; sourceTree = "<group>"; };
 		BFD945DB244DC5E80012785A /* iOSEngineerCodeCheck.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = iOSEngineerCodeCheck.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		BFD945DE244DC5E80012785A /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		BFD945E0244DC5E80012785A /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
-		BFD945E2244DC5E80012785A /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
+		BFD945E2244DC5E80012785A /* RootViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RootViewController.swift; sourceTree = "<group>"; };
 		BFD945E5244DC5E80012785A /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
 		BFD945E7244DC5EB0012785A /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		BFD945EA244DC5EB0012785A /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
@@ -51,6 +59,14 @@
 		BFD945FC244DC5EB0012785A /* iOSEngineerCodeCheckUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = iOSEngineerCodeCheckUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		BFD94600244DC5EC0012785A /* iOSEngineerCodeCheckUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = iOSEngineerCodeCheckUITests.swift; sourceTree = "<group>"; };
 		BFD94602244DC5EC0012785A /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		C9057D08278E5B3100549F08 /* Array.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Array.swift; sourceTree = "<group>"; };
+		C96749E2278FA2130084F378 /* GithubAPI.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GithubAPI.swift; sourceTree = "<group>"; };
+		C96749E7278FA3B00084F378 /* Repository.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Repository.swift; sourceTree = "<group>"; };
+		C96749E9278FAAD00084F378 /* GithubRepository.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GithubRepository.swift; sourceTree = "<group>"; };
+		C96749EB278FACA70084F378 /* SearchRepositoriesUsecase.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchRepositoriesUsecase.swift; sourceTree = "<group>"; };
+		C96749ED278FB44D0084F378 /* DetailViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DetailViewModel.swift; sourceTree = "<group>"; };
+		C96749EF278FB45D0084F378 /* RootViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RootViewModel.swift; sourceTree = "<group>"; };
+		C96749F2278FBCB60084F378 /* CommonError.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CommonError.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -101,10 +117,14 @@
 		BFD945DD244DC5E80012785A /* iOSEngineerCodeCheck */ = {
 			isa = PBXGroup;
 			children = (
+				C96749E6278FA2AC0084F378 /* Entity */,
+				C96749DF278FA19B0084F378 /* Main */,
+				C96749DE278FA1860084F378 /* Usecase */,
+				C96749DD278FA0FE0084F378 /* Domain */,
+				C96749DC278FA0EF0084F378 /* Infra */,
+				C9057D0A278E5BA500549F08 /* Extension */,
 				BFD945DE244DC5E80012785A /* AppDelegate.swift */,
 				BFD945E0244DC5E80012785A /* SceneDelegate.swift */,
-				BFD945E2244DC5E80012785A /* ViewController.swift */,
-				BF0A658C244F2A3B00280FA6 /* ViewController2.swift */,
 				BFD945E4244DC5E80012785A /* Main.storyboard */,
 				BFD945E7244DC5EB0012785A /* Assets.xcassets */,
 				BFD945E9244DC5EB0012785A /* LaunchScreen.storyboard */,
@@ -129,6 +149,74 @@
 				BFD94602244DC5EC0012785A /* Info.plist */,
 			);
 			path = iOSEngineerCodeCheckUITests;
+			sourceTree = "<group>";
+		};
+		C9057D0A278E5BA500549F08 /* Extension */ = {
+			isa = PBXGroup;
+			children = (
+				C9057D08278E5B3100549F08 /* Array.swift */,
+			);
+			path = Extension;
+			sourceTree = "<group>";
+		};
+		C96749DC278FA0EF0084F378 /* Infra */ = {
+			isa = PBXGroup;
+			children = (
+				C96749E2278FA2130084F378 /* GithubAPI.swift */,
+			);
+			path = Infra;
+			sourceTree = "<group>";
+		};
+		C96749DD278FA0FE0084F378 /* Domain */ = {
+			isa = PBXGroup;
+			children = (
+				C96749E9278FAAD00084F378 /* GithubRepository.swift */,
+			);
+			path = Domain;
+			sourceTree = "<group>";
+		};
+		C96749DE278FA1860084F378 /* Usecase */ = {
+			isa = PBXGroup;
+			children = (
+				C96749EB278FACA70084F378 /* SearchRepositoriesUsecase.swift */,
+			);
+			path = Usecase;
+			sourceTree = "<group>";
+		};
+		C96749DF278FA19B0084F378 /* Main */ = {
+			isa = PBXGroup;
+			children = (
+				C96749E1278FA1E90084F378 /* Detail */,
+				C96749E0278FA1DA0084F378 /* Root */,
+				C96749F2278FBCB60084F378 /* CommonError.swift */,
+			);
+			path = Main;
+			sourceTree = "<group>";
+		};
+		C96749E0278FA1DA0084F378 /* Root */ = {
+			isa = PBXGroup;
+			children = (
+				BFD945E2244DC5E80012785A /* RootViewController.swift */,
+				C96749EF278FB45D0084F378 /* RootViewModel.swift */,
+			);
+			path = Root;
+			sourceTree = "<group>";
+		};
+		C96749E1278FA1E90084F378 /* Detail */ = {
+			isa = PBXGroup;
+			children = (
+				BF0A658C244F2A3B00280FA6 /* DetailViewController.swift */,
+				C96749ED278FB44D0084F378 /* DetailViewModel.swift */,
+			);
+			path = Detail;
+			sourceTree = "<group>";
+		};
+		C96749E6278FA2AC0084F378 /* Entity */ = {
+			isa = PBXGroup;
+			children = (
+				C96749E7278FA3B00084F378 /* Repository.swift */,
+			);
+			path = Entity;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -262,8 +350,16 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				BFD945E3244DC5E80012785A /* ViewController.swift in Sources */,
-				BF0A658D244F2A3B00280FA6 /* ViewController2.swift in Sources */,
+				C96749E8278FA3B00084F378 /* Repository.swift in Sources */,
+				C9057D09278E5B3100549F08 /* Array.swift in Sources */,
+				C96749EC278FACA70084F378 /* SearchRepositoriesUsecase.swift in Sources */,
+				C96749EE278FB44D0084F378 /* DetailViewModel.swift in Sources */,
+				C96749E3278FA2130084F378 /* GithubAPI.swift in Sources */,
+				BFD945E3244DC5E80012785A /* RootViewController.swift in Sources */,
+				C96749EA278FAAD00084F378 /* GithubRepository.swift in Sources */,
+				C96749F3278FBCB60084F378 /* CommonError.swift in Sources */,
+				BF0A658D244F2A3B00280FA6 /* DetailViewController.swift in Sources */,
+				C96749F0278FB45D0084F378 /* RootViewModel.swift in Sources */,
 				BFD945DF244DC5E80012785A /* AppDelegate.swift in Sources */,
 				BFD945E1244DC5E80012785A /* SceneDelegate.swift in Sources */,
 			);
