@@ -6,23 +6,61 @@
 //  Copyright © 2020 YUMEMI Inc. All rights reserved.
 //
 
+import Combine
 import UIKit
 
 class RootViewController: UITableViewController, UISearchBarDelegate {
     @IBOutlet private weak var searchBar: UISearchBar!
     
-    private(set) var repositories: [[String: Any]]=[]
+    private var repositories: [Repository]=[]
 
-    private var searchWord: String = ""
-    private var searchRepositoriesUrl: String = ""
-    private var searchRepositoriesTask: URLSessionTask?
-    private(set) var selectedRepogitoryIndex: Int?
+    private let viewModel: RootViewModel
+    private let input: Input
+    private var cancellables = [AnyCancellable]()
+
+    private let searchBarSearchButtonClickedPublisher = PassthroughSubject<String, Error>()
+
+    init?(coder: NSCoder, input: Input = .init(usecase: .init())) {
+        self.input = input
+        self.viewModel = .init(usecase: input.usecase)
+        super.init(coder: coder)
+    }
+
+    required init?(coder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
     
     override func viewDidLoad() {
         super.viewDidLoad()
 
         searchBar.text = "GitHubのリポジトリを検索できるよー"
         searchBar.delegate = self
+    }
+
+    private func bind() {
+        cancellables.forEach { $0.cancel() }
+        cancellables.removeAll()
+
+        let output = viewModel.transform(
+            input: .init(
+                searchBarSearchButtonClicked: searchBarSearchButtonClickedPublisher.eraseToAnyPublisher()
+            ))
+
+        output.searchResult
+            .receive(on: DispatchQueue.main)
+            .sink(receiveCompletion: { completion in
+                switch completion {
+                case .finished: break
+                case .failure(let error):
+                    // TODO: エラー表示
+                    print(error)
+                }
+            }, receiveValue: { [weak self] repositories in
+                // 検索結果更新
+                self?.repositories = repositories
+                self?.tableView.reloadData()
+            })
+            .store(in: &cancellables)
     }
     
     func searchBarShouldBeginEditing(_ searchBar: UISearchBar) -> Bool {
@@ -31,32 +69,12 @@ class RootViewController: UITableViewController, UISearchBarDelegate {
         return true
     }
     
-    func searchBar(_ searchBar: UISearchBar, textDidChange searchText: String) {
-        searchRepositoriesTask?.cancel()
-    }
-    
     func searchBarSearchButtonClicked(_ searchBar: UISearchBar) {
         guard let searchBarText = searchBar.text,
               searchBarText.count != 0 else { return }
 
-        searchWord = searchBarText
-        searchRepositoriesUrl = "https://api.github.com/search/repositories?q=\(searchWord)"
-
-        guard let url = URL(string: searchRepositoriesUrl) else { return }
-
-        searchRepositoriesTask = URLSession.shared.dataTask(with: url) { [weak self] (data, res, err) in
-            guard let data = data,
-                  let obj = try? JSONSerialization.jsonObject(with: data) as? [String: Any],
-                  let items = obj["items"] as? [[String: Any]] else { return }
-
-            self?.repositories = items
-            DispatchQueue.main.async { [weak self] in
-                // 検索結果更新
-                self?.tableView.reloadData()
-            }
-        }
         // 検索の実行
-        searchRepositoriesTask?.resume()
+        searchBarSearchButtonClickedPublisher.send(searchBarText)
     }
     
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
@@ -74,8 +92,8 @@ class RootViewController: UITableViewController, UISearchBarDelegate {
         let cell = UITableViewCell(style: .value1, reuseIdentifier: nil)
 
         if let repository = repositories[safe: indexPath.row] {
-            cell.textLabel?.text = repository["full_name"] as? String ?? ""
-            cell.detailTextLabel?.text = repository["language"] as? String ?? ""
+            cell.textLabel?.text = repository.fullName
+            cell.detailTextLabel?.text = repository.language
         }
 
         cell.tag = indexPath.row
@@ -84,7 +102,12 @@ class RootViewController: UITableViewController, UISearchBarDelegate {
     
     override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         // 詳細画面に遷移
-        selectedRepogitoryIndex = indexPath.row
         performSegue(withIdentifier: "Detail", sender: self)
+    }
+}
+
+extension RootViewController {
+    public struct Input {
+        let usecase: SearchRepositoriesUsecase
     }
 }

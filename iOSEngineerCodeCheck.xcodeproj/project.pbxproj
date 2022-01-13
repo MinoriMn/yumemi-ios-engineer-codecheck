@@ -21,6 +21,9 @@
 		C96749E8278FA3B00084F378 /* Repository.swift in Sources */ = {isa = PBXBuildFile; fileRef = C96749E7278FA3B00084F378 /* Repository.swift */; };
 		C96749EA278FAAD00084F378 /* GithubRepository.swift in Sources */ = {isa = PBXBuildFile; fileRef = C96749E9278FAAD00084F378 /* GithubRepository.swift */; };
 		C96749EC278FACA70084F378 /* SearchRepositoriesUsecase.swift in Sources */ = {isa = PBXBuildFile; fileRef = C96749EB278FACA70084F378 /* SearchRepositoriesUsecase.swift */; };
+		C96749EE278FB44D0084F378 /* DetailViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = C96749ED278FB44D0084F378 /* DetailViewModel.swift */; };
+		C96749F0278FB45D0084F378 /* RootViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = C96749EF278FB45D0084F378 /* RootViewModel.swift */; };
+		C96749F3278FBCB60084F378 /* CommonError.swift in Sources */ = {isa = PBXBuildFile; fileRef = C96749F2278FBCB60084F378 /* CommonError.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -61,6 +64,9 @@
 		C96749E7278FA3B00084F378 /* Repository.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Repository.swift; sourceTree = "<group>"; };
 		C96749E9278FAAD00084F378 /* GithubRepository.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GithubRepository.swift; sourceTree = "<group>"; };
 		C96749EB278FACA70084F378 /* SearchRepositoriesUsecase.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchRepositoriesUsecase.swift; sourceTree = "<group>"; };
+		C96749ED278FB44D0084F378 /* DetailViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DetailViewModel.swift; sourceTree = "<group>"; };
+		C96749EF278FB45D0084F378 /* RootViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RootViewModel.swift; sourceTree = "<group>"; };
+		C96749F2278FBCB60084F378 /* CommonError.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CommonError.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -182,6 +188,7 @@
 			children = (
 				C96749E1278FA1E90084F378 /* Detail */,
 				C96749E0278FA1DA0084F378 /* Root */,
+				C96749F2278FBCB60084F378 /* CommonError.swift */,
 			);
 			path = Main;
 			sourceTree = "<group>";
@@ -190,6 +197,7 @@
 			isa = PBXGroup;
 			children = (
 				BFD945E2244DC5E80012785A /* RootViewController.swift */,
+				C96749EF278FB45D0084F378 /* RootViewModel.swift */,
 			);
 			path = Root;
 			sourceTree = "<group>";
@@ -198,6 +206,7 @@
 			isa = PBXGroup;
 			children = (
 				BF0A658C244F2A3B00280FA6 /* DetailViewController.swift */,
+				C96749ED278FB44D0084F378 /* DetailViewModel.swift */,
 			);
 			path = Detail;
 			sourceTree = "<group>";
@@ -344,10 +353,13 @@
 				C96749E8278FA3B00084F378 /* Repository.swift in Sources */,
 				C9057D09278E5B3100549F08 /* Array.swift in Sources */,
 				C96749EC278FACA70084F378 /* SearchRepositoriesUsecase.swift in Sources */,
+				C96749EE278FB44D0084F378 /* DetailViewModel.swift in Sources */,
 				C96749E3278FA2130084F378 /* GithubAPI.swift in Sources */,
 				BFD945E3244DC5E80012785A /* RootViewController.swift in Sources */,
 				C96749EA278FAAD00084F378 /* GithubRepository.swift in Sources */,
+				C96749F3278FBCB60084F378 /* CommonError.swift in Sources */,
 				BF0A658D244F2A3B00280FA6 /* DetailViewController.swift in Sources */,
+				C96749F0278FB45D0084F378 /* RootViewModel.swift in Sources */,
 				BFD945DF244DC5E80012785A /* AppDelegate.swift in Sources */,
 				BFD945E1244DC5E80012785A /* SceneDelegate.swift in Sources */,
 			);
